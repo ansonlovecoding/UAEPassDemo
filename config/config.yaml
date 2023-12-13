@@ -1,0 +1,22 @@
+env : staging # staging or production, environment of "UAE PASS"
+
+redis:
+  address: localhost:6379
+  password: 123456
+
+# endpoints of "UAE Pass"
+endpoints:
+  staging:
+    client_id: sandbox_stage
+    credentials: c2FuZGJveF9zdGFnZTpzYW5kYm94X3N0YWdl
+    authorization: https://stg-id.uaepass.ae/idshub/authorize
+    token: https://stg-id.uaepass.ae/idshub/token
+    user_info: https://stg-id.uaepass.ae/idshub/userinfo
+    logout: https://stg-id.uaepass.ae/idshub/logout
+  production:
+    client_id:
+    credentials:
+    authorization: https://id.uaepass.ae/idshub/authorize
+    token: https://id.uaepass.ae/idshub/token
+    user_info: https://id.uaepass.ae/idshub/userinfo
+    logout: https://id.uaepass.ae/idshub/logout
