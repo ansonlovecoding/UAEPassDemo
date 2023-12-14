@@ -6,7 +6,7 @@
 
 ## Authentication
 
-![assets_-MekZ3RZxqIxNNSkEFZ1_-MekZ4KL5-3z04TPBRR__-MekZOQA5B2pBkOCwCtn_image](/Users/hongweilin/GolandProjects/UAEPassDemo/README.assets/assets_-MekZ3RZxqIxNNSkEFZ1_-MekZ4KL5-3z04TPBRR__-MekZOQA5B2pBkOCwCtn_image.webp)
+![assets_-MekZ3RZxqIxNNSkEFZ1_-MekZ4KL5-3z04TPBRR__-MekZOQA5B2pBkOCwCtn_image](README.assets/assets_-MekZ3RZxqIxNNSkEFZ1_-MekZ4KL5-3z04TPBRR__-MekZOQA5B2pBkOCwCtn_image-2549980.webp)
 
 ### 1. Environments of UAE PASS
 
