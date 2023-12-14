@@ -5,14 +5,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"time"
 )
 
-func Get(url string, timeout int) (response []byte, err error) {
+func Get(url, token string, timeout int) (response []byte, err error) {
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+	if len(token) > 0 {
+		req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", token))
+	}
 	client := http.Client{Timeout: time.Duration(timeout) * time.Second}
-	resp, err := client.Get(url)
+	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +51,7 @@ func Post(url, credential string, data interface{}, timeOutSecond int) (content 
 		return nil, err
 	}
 	defer resp.Body.Close()
-	result, err := ioutil.ReadAll(resp.Body)
+	result, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}

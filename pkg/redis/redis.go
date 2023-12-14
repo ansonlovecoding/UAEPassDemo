@@ -60,3 +60,22 @@ func (r *Redis) GetAccessCode(state string) (string, error) {
 		return res, nil
 	}
 }
+
+func (r *Redis) GetAccessToken(state string) (string, error) {
+	key := fmt.Sprintf("%s_%s", UAEPassToken, state)
+	res, err := r.client.Get(context.Background(), key).Result()
+	if err != nil {
+		return "", err
+	} else {
+		return res, nil
+	}
+}
+
+func (r *Redis) SetAccessToken(state, token string, expiration int) error {
+	key := fmt.Sprintf("%s_%s", UAEPassToken, state)
+	_, err := r.client.Set(context.Background(), key, token, time.Duration(expiration)*time.Second).Result()
+	if err != nil {
+		return err
+	}
+	return nil
+}

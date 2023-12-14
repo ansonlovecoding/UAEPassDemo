@@ -1,33 +1,65 @@
-# Cryptocurrency Exchange Server
+# UAE Pass Intergration
 
-## About Architecture
-
-- Web Framework: GIN or GraphQL
-- Authentication: JWT
-- Configuration Framework: Viper
-- Service Discovery & Configuration: Consul
-- Key Management Services ( KMS ): HashiCorp Vault
-- Remote Procedure Call: gRPC
-- Caching: Redis
-- Message Queue: Pulsar
-- Relation Database (main database): CockroachDB OR PostgreSQL
-  - 存储用户数据和资产数据
-- ORM Library: GORM
-- Time Series Database (messages and historical orders): InfluxDB
-  - 存储定序消息和行情数据和历史订单
-- Notifications: SSE
-  - 更轻量，单向通信
-- Real-time Data Warehouse: Apache Link or Pulsar Golang Client
-  - 用于实时统计处理行情数据
-- Offline Data Warehouse: Apache Spark
-  - 用于处理分析历史数据
-- API Document: Swagger
-- Log: Logrus + ELK
-- Monitor: Prometheus or Grafna
-- 
+> Kindly check the official website of UAE PASS (https://docs.uaepass.ae) for more information, this project is kind of simple intergration demo of Golang.
 
 
 
-go run github.com/99designs/gqlgen generate --config pkg/common/graph/gqlgen_admin.yml
+## Authentication
 
-go run github.com/99designs/gqlgen generate --config pkg/common/graph/gqlgen_web.yml
+![assets_-MekZ3RZxqIxNNSkEFZ1_-MekZ4KL5-3z04TPBRR__-MekZOQA5B2pBkOCwCtn_image](/Users/hongweilin/GolandProjects/UAEPassDemo/README.assets/assets_-MekZ3RZxqIxNNSkEFZ1_-MekZ4KL5-3z04TPBRR__-MekZOQA5B2pBkOCwCtn_image.webp)
+
+### 1. Environments of UAE PASS
+
+UAE PASS has two environments, one is "staging" for deployment testing, one is "production" for the production uses, configure it in `config/config.yaml` by setting the value for key `env`. 
+
+And you can change the endpoints if the endpoints was updated by UAE PASS.
+
+```shell
+env : staging # staging or production, environment of "UAE PASS"
+
+redis:
+  address: localhost:6379
+  password: 123456
+
+# endpoints of "UAE Pass"
+endpoints:
+  staging:
+    client_id: sandbox_stage
+    credentials: c2FuZGJveF9zdGFnZTpzYW5kYm94X3N0YWdl
+    authorization: https://stg-id.uaepass.ae/idshub/authorize
+    token: https://stg-id.uaepass.ae/idshub/token
+    user_info: https://stg-id.uaepass.ae/idshub/userinfo
+    logout: https://stg-id.uaepass.ae/idshub/logout
+  production:
+    client_id:
+    credentials:
+    authorization: https://id.uaepass.ae/idshub/authorize
+    token: https://id.uaepass.ae/idshub/token
+    user_info: https://id.uaepass.ae/idshub/userinfo
+    logout: https://id.uaepass.ae/idshub/logout
+```
+
+`client_id` and `credentials` are the identity of you developer account in UAE PASS, UAE PASS has provide the `client_id` and `credentials` for staging environment, but for production environment you have to request to be the partner of UAE PASS.
+
+
+
+### 2. Pre-Requisites
+
+- Download the UAE PASS of staging environment : https://docs.uaepass.ae/resources/staging-apps
+
+- Create a user in the APP
+
+  
+
+### 3. Flow Testing
+
+1. Make sure the address of redis is `redis:6379`, then run the docker compose to start server, and the endpoint `/receive_code"` of the server is to receive the callback from UAE PASS, after the server started, and check if the endpoint working first:
+
+   `http://localhost:8080/receive_code?state=138739123&code=123456`
+
+2. Change the address of redis to "127.0.0.1:6379", and run the `TestRequestAccessCodeURL` in `web_intergration_test` to get the fully URL, then copy to the browser to login UAE PASS. 
+
+3. After login, the browser will redirect to the `redirect_url` you have passed, you have to copy the `access_code` from the browser, and paste it to `TestFlow` in `web_intergration_test` , then run it.
+
+
+

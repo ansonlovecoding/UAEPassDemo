@@ -1,7 +1,7 @@
 env : staging # staging or production, environment of "UAE PASS"
 
 redis:
-  address: localhost:6379
+  address: 127.0.0.1:6379
   password: 123456
 
 # endpoints of "UAE Pass"

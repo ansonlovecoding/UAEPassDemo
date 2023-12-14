@@ -7,8 +7,9 @@ import (
 
 func main() {
 	c := echo.New()
-	c.GET("/get_access_code_url", uaepass.GetAccessCodeURL)
 	c.GET("/receive_code", uaepass.ReceiveCode)
-	//c.GET("/get_access_token")
-	c.Start(":8080")
+	err := c.Start(":8080")
+	if err != nil {
+		panic(err)
+	}
 }
